@@ -3,46 +3,47 @@
 #include <string>
 #include <climits>
 
-
+/* INSERTION SORT */
 template<typename T>
 void insertionSort(T array[], int length) {
-    int i,j;
+    int i, j;
     for(i = 1; i < length; i++) {
         T curr = array[i];
         j = i - 1;
         while (j >= 0 && array[j] > curr) {
-            array[j+1] = array[j];
-            j = j-1;
+            array[j + 1] = array[j];
+            j = j - 1;
         }
         array[j + 1] = curr;
     }
     
 }
 
+/* BUBBLE SORT */
 template<typename T>
 void bubbleSort(T array[], int length) {
-    int i,j;
+    int i, j;
     T tmp;
     for(i = 0; i < length - 1; i++) {
         for (j = length - 1; j > i; j--) {
-            if (array[j] < array[j-1]) {
-                tmp = array[j-1];
-                array[j-1] = array[j];
+            if (array[j] < array[j - 1]) {
+                //swap a[j], a[j - 1]
+                tmp = array[j - 1];
+                array[j - 1] = array[j];
                 array[j] = tmp;
             }
         }
     }    
 }
 
-
-
+/* MERGE SORT */
 template<typename T>
 void merge(T array[], int left, int mid, int right) {
     int i, j, k;
+    
     T *LeftSeq = new T[mid - left + 1];
     T *RightSeq = new T[right - mid + 1];
-    
-    
+        
     for (i = 0; i < mid - left; i++) 
         LeftSeq[i] = array[left + i];
     LeftSeq[i] = INT_MAX;
@@ -72,11 +73,11 @@ void mergeSort(T array[], int left, int right) {
     }
 }
 
-
+/* TEST MAIN */
 int main()
 {
   std::cout << "Hello" << "!\n";
-  int test1[] = {5,9,8,7,1,1,2,3,4,9,8};
+  int test1[] = {5, 9, 8, 7, 1, 1, 2, 3, 4, 9, 8};
   //insertionSort(test1, 11);
   //mergeSort(test1, 0, 10);
   bubbleSort(test1, 11);
