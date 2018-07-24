@@ -1,8 +1,7 @@
 // Example program
 #include <iostream>
-#include <string>
 
-
+/* HASH_NODE */
 template<typename K, typename V>
 class HashNode {
     private:
@@ -19,6 +18,9 @@ class HashNode {
         }
         V getValue() {
             return _value;
+        }
+        HashNode * getNext() {
+            return _next;
         }
         void setKey(const K &key) {
             _key = key;
@@ -37,13 +39,13 @@ template<typename K, typename V>
 class HashMap {
     private:
         HashNode<K, V> **table;
-        int _hashTableLength;
+        unsigned long _hashTableLength;
         unsigned long hashFunc(const K &key) {
             return (unsigned long)(key) % _hashTableLength;
         }
     public:
-        HashMap(int HashTableLength) :
-            _hashTableLength(HashTableLength) 
+        HashMap(int hashTableLength) :
+            _hashTableLength(hashTableLength) 
         {
             table = new HashNode<K, V> *[_hashTableLength];
         }
@@ -58,11 +60,7 @@ class HashMap {
                 entry = entry->getNext();
             }
             
-            if (entry->getKey() == key) {
-                entry->setValue(value);
-            }
-            
-            else if (entry == NULL) {
+            if (entry == NULL) {
                 entry = new HashNode<K, V>(key, value);
                 
                 if (prev == NULL) 
@@ -70,7 +68,9 @@ class HashMap {
                 else
                     prev->setNext(entry);
             }
-            
+            else if (entry->getKey() == key) {
+                entry->setValue(value);
+            }
         }
         int get(const K &key, V &value) {
             unsigned long hashValue = hashFunc(key);
@@ -93,26 +93,57 @@ class HashMap {
 };
 
 
-
 /* TEST MAIN */
+void test1() {
+  HashMap<int, int> EmployeeAge(10);
+  EmployeeAge.put(1, 34);
+  EmployeeAge.put(2, 23);
+  EmployeeAge.put(3, 16);
+  EmployeeAge.put(4, 38);
+  EmployeeAge.put(5, 26);
+  EmployeeAge.put(6, 55);
+  
+  int ret = 0, value = 0;
+  ret = EmployeeAge.get(5, value);
+  std::cout << ret << ", " << value << std::endl;
+  ret = EmployeeAge.get(4, value);
+  std::cout << ret << ", " << value << std::endl;
+  ret = EmployeeAge.get(3, value);
+  std::cout << ret << ", " << value << std::endl;
+  ret = EmployeeAge.get(2, value);
+  std::cout << ret << ", " << value << std::endl;
+  ret = EmployeeAge.get(1, value);
+  std::cout << ret << ", " << value << std::endl;
+
+}
+
+void test2() {
+  HashMap<char *, int> EmployeeAge(10);
+  EmployeeAge.put("1", 34);
+  EmployeeAge.put("2", 23);
+  EmployeeAge.put("3", 16);
+  EmployeeAge.put("4", 38);
+  EmployeeAge.put("5", 26);
+  EmployeeAge.put("6", 55);
+  
+  int ret = 0, value = 0;
+
+  ret = EmployeeAge.get("5", value);
+  std::cout << ret << ", " << value << std::endl;
+  ret = EmployeeAge.get("4", value);
+  std::cout << ret << ", " << value << std::endl;
+  ret = EmployeeAge.get("3", value);
+  std::cout << ret << ", " << value << std::endl;
+  ret = EmployeeAge.get("2", value);
+  std::cout << ret << ", " << value << std::endl;
+  ret = EmployeeAge.get("1", value);
+  std::cout << ret << ", " << value << std::endl;
+}
+
 int main()
 {
   std::cout << "Hello" << "!\n";
-  
-  HashMap<string, int> EmployeeAge(10);
-  /*EmployeeAge.put("Emp1", "34");
-  EmployeeAge.put("Emp2", "23");
-  EmployeeAge.put("Emp3", "16");
-  EmployeeAge.put("Emp4", "38");
-  EmployeeAge.put("Emp5", "26");
-  EmployeeAge.put("Emp6", "55");
-  
-  std::cout << EmployeeAge.get("Emp6") << ",";
-  std::cout << EmployeeAge.get("Emp5") << ",";
-  std::cout << EmployeeAge.get("Emp4") << ",";
-  std::cout << EmployeeAge.get("Emp3") << ",";
-  std::cout << EmployeeAge.get("Emp2") << ",";
-  std::cout << EmployeeAge.get("Emp1") << ",";
-  std::cout << "\n";*/
-  return 1;
+  test1();
+  test2();
+  return 0;
 }
